@@ -16,8 +16,8 @@ import shutil
 import sys
 import tempfile
 
-DEFAULT_SETTINGS = (
-    "/c/Users/jdfen/AppData/Local/Packages/"
+DEFAULT_SETTINGS = os.path.expanduser(
+    "~/userprofile/AppData/Local/Packages/"
     "Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
 )
 NAME = "Tinty"
