@@ -1,0 +1,23 @@
+{
+    "name": "Tinty",
+    "foreground": "#dfdfdf",
+    "background": "#121212",
+    "cursorColor": "#dfdfdf",
+    "selectionBackground": "#424242",
+    "black": "#121212",
+    "red": "#fa2834",
+    "green": "#97e123",
+    "yellow": "#fef20a",
+    "blue": "#0442fe",
+    "purple": "#f800f8",
+    "cyan": "#01b6ed",
+    "white": "#dfdfdf",
+    "brightBlack": "#525252",
+    "brightRed": "#f5669c",
+    "brightGreen": "#b0e05e",
+    "brightYellow": "#fef26c",
+    "brightBlue": "#0442fe",
+    "brightPurple": "#f200f5",
+    "brightCyan": "#50cdfe",
+    "brightWhite": "#ffffff"
+}

@@ -1,0 +1,33 @@
+name: "Update with the latest tinted-theming colorschemes"
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0" # https://crontab.guru/every-week
+  push:
+    branches: [main]
+    paths: ["templates/**"]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-commit:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Fetch the repository code"
+        uses: "actions/checkout@9a9194f87191a7e9055e3e9b95b8cfb13023bb08" # 4.1.7
+
+      - name: "Install tinted-builder-rust"
+        uses: "jaxxstorm/action-install-gh-release@v1.10.0"
+        with:
+          repo: "tinted-theming/tinted-builder-rust"
+
+      - name: "Build"
+        run: |
+          tinted-builder-rust sync
+          tinted-builder-rust build .
+
+      - name: "Commit the changes, if any"
+        uses: "stefanzweifel/git-auto-commit-action@be823a7e51f116fecebc222b8307716921375992" # 5.0.1
+        with:
+          commit_message: "Update with the latest tinted-theming colorschemes [skip ci]"
