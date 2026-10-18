@@ -21,12 +21,12 @@ jobs:
       contents: write # push regenerated colorschemes to main
     steps:
       - name: "Fetch the repository code"
-        uses: "actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332" # v4.1.7
+        uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1" # v7.0.1
         with:
           persist-credentials: false
 
       - name: "Install tinted-builder-rust"
-        uses: "jaxxstorm/action-install-gh-release@c5ead9a448b4660cf1e7866ee22e4dc56538031a" # v1.10.0
+        uses: "jaxxstorm/action-install-gh-release@25e24d2d23ae098373794ef1d6faecb48ee52da8" # v3.0.0
         with:
           repo: "tinted-theming/tinted-builder-rust"
 
