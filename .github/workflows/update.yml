@@ -7,18 +7,26 @@ on:
     branches: [main]
     paths: ["templates/**"]
 
-permissions:
-  contents: write
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
 
 jobs:
   build-and-commit:
+    name: "Build and commit colorschemes"
     runs-on: "ubuntu-latest"
+    permissions:
+      contents: write # push regenerated colorschemes to main
     steps:
       - name: "Fetch the repository code"
-        uses: "actions/checkout@9a9194f87191a7e9055e3e9b95b8cfb13023bb08" # 4.1.7
+        uses: "actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332" # v4.1.7
+        with:
+          persist-credentials: false
 
       - name: "Install tinted-builder-rust"
-        uses: "jaxxstorm/action-install-gh-release@v1.10.0"
+        uses: "jaxxstorm/action-install-gh-release@c5ead9a448b4660cf1e7866ee22e4dc56538031a" # v1.10.0
         with:
           repo: "tinted-theming/tinted-builder-rust"
 
@@ -28,6 +36,15 @@ jobs:
           tinted-builder-rust build .
 
       - name: "Commit the changes, if any"
-        uses: "stefanzweifel/git-auto-commit-action@be823a7e51f116fecebc222b8307716921375992" # 5.0.1
-        with:
-          commit_message: "Update with the latest tinted-theming colorschemes [skip ci]"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "Update with the latest tinted-theming colorschemes [skip ci]"
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${GITHUB_REF_NAME}"
