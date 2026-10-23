@@ -40,3 +40,19 @@ supported-systems = ["base16", "base24", "tinted8"]
 ```
 
 `settings.json` (one time): `profiles.defaults.colorScheme.dark = "Tinty"`.
+
+## Credits
+
+- [Tinted Theming schemes](https://github.com/tinted-theming/schemes): the
+  base16, base24, and tinted8 color schemes.
+- [tinted-builder-rust](https://github.com/tinted-theming/tinted-builder-rust)
+  builds `themes/`; [tinty](https://github.com/tinted-theming/tinty)
+  applies it.
+- [tinted-shell](https://github.com/tinted-theming/tinted-shell), whose ANSI
+  mapping the templates follow.
+
+## License
+
+[MIT](LICENSE.txt). Files in `themes/` contain color values from the
+Tinted Theming schemes, © 2022 Tinted Theming, used under the MIT License;
+see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
