@@ -3,6 +3,9 @@
 
 Usage: apply-scheme.py SCHEME_JSON [SETTINGS_JSON]
 
+SETTINGS_JSON defaults to the Store install's settings.json under
+$USERPROFILE (the Windows home as a WSL path, e.g. /c/Users/<name>).
+
 settings.json is JSONC (comments, trailing commas), so it is edited as text:
 only the span of the existing "Tinty" object in "schemes" is replaced (or the
 object is inserted as the first element), leaving comments and formatting
@@ -16,8 +19,8 @@ import shutil
 import sys
 import tempfile
 
-DEFAULT_SETTINGS = os.path.expanduser(
-    "~/userprofile/AppData/Local/Packages/"
+SETTINGS_REL = (
+    "AppData/Local/Packages/"
     "Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
 )
 NAME = "Tinty"
@@ -164,7 +167,12 @@ def main(argv):
     if len(argv) not in (2, 3):
         sys.exit(__doc__)
     scheme_path = argv[1]
-    settings_path = argv[2] if len(argv) == 3 else DEFAULT_SETTINGS
+    if len(argv) == 3:
+        settings_path = argv[2]
+    elif os.environ.get("USERPROFILE"):
+        settings_path = os.path.join(os.environ["USERPROFILE"], SETTINGS_REL)
+    else:
+        sys.exit("apply-scheme: USERPROFILE is not set; pass SETTINGS_JSON")
 
     with open(scheme_path, encoding="utf-8") as f:
         scheme = json.load(f)

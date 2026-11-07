@@ -6,7 +6,10 @@ WSL tabs and pwsh tabs agree.
 
 - `templates/`: one scheme object per system.
 - `apply-scheme.py`: the tinty hook. It upserts the `Tinty` object into the
-  `schemes` array of the Store WT `settings.json`. That file is JSONC, so the
+  `schemes` array of the Store WT `settings.json`, found under
+  `$USERPROFILE/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/`
+  (pass a different path as a second argument; without `$USERPROFILE` and no
+  path, it exits with a message). That file is JSONC, so the
   script edits it as text: comments and formatting elsewhere are preserved.
   The previous file is kept as `settings.json.tinty.bak`. WT hot-reloads.
 - `themes/`: built output, one file per scheme (committed; tinty reads it directly).
@@ -38,6 +41,10 @@ themes-dir = "themes"
 hook = "python3 -I ~/.local/share/tinted-theming/tinty/repos/tinted-windows-terminal/apply-scheme.py %f"
 supported-systems = ["base16", "base24", "tinted8"]
 ```
+
+On WSL, the hook reads `$USERPROFILE` from the shell that runs `tinty`; see
+[tinted-dircolors](https://github.com/jfishe/tinted-dircolors#tinted-configuration)
+for passing it through `WSLENV`.
 
 `settings.json` (one time): `profiles.defaults.colorScheme.dark = "Tinty"`.
 
